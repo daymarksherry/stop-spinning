@@ -698,18 +698,18 @@ body {
    ============================================================ */
 
 const WHO_ITEMS = [
-  "Past teacher or mentor",
+  "Past teacher/mentor",
   "Former colleague",
   "A colleague",
   "Someone you mentored",
-  "Old friend from school",
-  "A neighbor",
+  "School friend",
+  "Neighbor",
   "Volunteer connection",
-  "A relative",
+  "Relative",
   "Someone you admire",
   "Someone you could help",
-  "Doing work you want",
-  "Someone who hires you"
+  "Someone with a cool job",
+  "Someone who hires people"
 ];
 
 const HOW_ITEMS = [
@@ -717,100 +717,100 @@ const HOW_ITEMS = [
   "Email",
   "LinkedIn message",
   "Phone call",
-  "A handwritten note",
-  "Show up somewhere",
+  "Handwritten note",
+  "Connect at an event",
   "Instagram DM",
   "Other social media"
 ];
 
 const BRIDGES = [
-  { key: "memory",   label: "A memory",                  desc: "Remember when we..." },
-  { key: "trigger",  label: "A trigger",                 desc: "I saw / heard / ran into something — and thought of you." },
-  { key: "gratitude",label: "Gratitude",                 desc: "I never properly thanked you." },
-  { key: "like",     label: "What I like about you",     desc: "In case you forgot — you're kind of great." },
+  { key: "memory",   label: "A memory",                  desc: "Remember that time when..." },
+  { key: "trigger",  label: "A trigger",                 desc: "I saw / heard / read something — and thought of you." },
+  { key: "gratitude",label: "Gratitude",                 desc: "You helped me, and I haven't forgotten." },
+  { key: "like",     label: "What I like about you",     desc: "You probably don't hear this enough: you're great at ____." },
   { key: "missing",  label: "Missing you",               desc: "It's been too long." },
-  { key: "gift",     label: "A gift",                    desc: "I think you'd love this." },
+  { key: "gift",     label: "Sharing something",         desc: "I think you'd appreciate this." },
   { key: "thinking", label: "What are you thinking about?", desc: "I always learn something when we talk." },
   { key: "update",   label: "A life update",             desc: "Wait — is your daughter in college by now?" },
-  { key: "because",  label: "Just because",              desc: "No reason. Just thought of you." }
+  { key: "because",  label: "Wanted to tell you",        desc: "I have news to share." }
 ];
 
 // [text] inside skeleton strings is auto-highlighted as bracket spans
 const MAD_LIBS = {
   memory: {
-    skeleton: "Hey [name] — I was just thinking about [a specific memory you share]. [what it made you feel or realize]. [a simple, low-pressure invitation].",
-    casual:   "Hey Marcus — totally random, but I was thinking about that terrible conference coffee we had and started laughing. You around to grab a better cup sometime?",
-    formal:   "Hi Marcus — I found myself thinking recently about the project we worked on together. It reminded me how much I valued your perspective. I'd love to reconnect when you have a free moment.",
-    tip:      "The more specific the memory, the better. \"That thing you said about X\" lands. Vague nostalgia doesn't."
+    skeleton: "Hey Marcus — I was [in a situation] and remembered our [specific conversation or activity]. Made me want to reconnect. You available for a [specific invitation -call/meal/coffee] in the next [time interval]?",
+    casual:   "OMG M! Remember when we got the car stuck in a ditch? Random but I thought about that today and laughed out loud at my desk.  Miss you!",
+    formal:   "Hi Marcus — I was telling a client about the Fitzgerald project earlier. It reminded me how much I learned from you about the stakeholder input steps. I didn't realize at the time how rare good project leaders are. Would love to catch up.",
+    tip:      "The more specific the memory, the better."
   },
   trigger: {
-    skeleton: "Hey [name] — I [ran into / read / heard / was in] [the person / thing / place] and immediately thought of you. [why it connected to them — one line]. [an easy invitation or question].",
-    casual:   "Hey Priya — I ran into [person] last week and we ended up talking about you. It made me realize we haven't actually caught up in ages. Coffee sometime?",
-    formal:   "Hi Priya — I came across [article / place / person] recently and thought of you immediately. Given [reason], I thought you'd find it interesting. Would love to hear your take.",
-    tip:      "The trigger can be a person (\"guess who I ran into\"), a thing (article, book, podcast), or a place or experience."
+    skeleton: "Hey [name] — I [saw/read/heard/went to] [person / place / thing] and thought of you. [why it connected to them — a word or two, not more than a line]. [An easy invitation or question].",
+    casual:   "I ran into Callie last week and of course we reminisced about your poor plant. I realized it's been ages! Can we get coffee?",
+    formal:   "Hi Priya — I'm sure everyone's sending you that New Yorker article about high school athletics. When I read it I found myself missing our conversations. And I'm wondering what your take is on the way athletic trainers were portrayed. Are you still working on that veteran project? Would love to talk soon.",
+    tip:      "Any trigger works — articles, podcasts, people, experiences." 
   },
   gratitude: {
-    skeleton: "Hey [name] — I've been meaning to say this: [the specific thing they did]. [why it mattered more than they probably know]. [no ask — just leave it there, or open a door gently].",
-    casual:   "Hey Dr. Chen — long overdue, but I never properly thanked you for [specific thing]. I think about it more than you'd expect. Just wanted you to know.",
-    formal:   "Dear Dr. Chen — I've been meaning to reach out to express my appreciation for [specific guidance]. It has stayed with me in meaningful ways. Thank you.",
-    tip:      "\"You were so supportive\" is nothing. \"When you said X, it changed how I thought about Y\" is everything."
+    skeleton: "[Name] I've been meaning to tell you: [the specific thing they did] [made this difference in your world]. Thank you. [Optional — offer to reciprocate or reconnect.].",
+    casual:   "Hey Dr. C. Long overdue, but I never properly thanked you for what you did for me after graduation. I think about it more than you'd expect. Not just introducing me to Andy, but helping me figure out what to say. Maybe it seemed small to you but I would have been way too intimidated and stiff without your encouragement. I try to do that for our interns now and I always think about you.",
+    formal:   "Dear Jeff, I'm reaching out express my appreciation for what you said after that committee meeting. You might not have known, but it came during an especially hard week for me, and that contentious meeting was another frustrating example of what wasn't working. What you said afterwards made me feel like my voice in these decisions mattered, and that I could stick it out. I really needed it. Thank you. If there's ever a way I can be useful to you, I hope you'll ask. I'd love to repay that kindness.",
+    tip:      "\"You were so supportive\" is generic. \"When you said X, it changed Y for me\" will make them feel appreciated."
   },
   like: {
-    skeleton: "Hey [name] — I was talking about you the other day and realized I've never actually said this to you: [a specific quality you genuinely admire]. [one concrete reason you believe it]. [no ask — just leave it there].",
-    casual:   "Hey Marcus — I was telling someone about you and realized I've never actually said it to your face: you're one of the clearest thinkers I know. I mean that. No agenda.",
-    formal:   "Hi Marcus — I found myself describing you to a colleague and realized I'd never told you directly: [specific quality]. I've always admired that about you. I hope that lands the way I mean it.",
-    tip:      "Vague compliments disappear. \"You're inspiring\" lands flat. \"You're the person I think of when I need to see a problem differently\" sticks."
+    skeleton: "[Greeting & name] — [Optional reason/trigger made me realize] I'm not sure I've ever told you: [a specific genuine compliment]. [One concrete reason you believe it]. [Friendly sign-off, no ask].",
+    casual:   "Teria — I was sitting through a crappy PowerPoint and realized I've never actually said it to your face: you're the best presenter I know. Polished yet funny. Keep being awesome.",
+    formal:   "Hi Teria — I found myself describing your speaking style to a colleague and realized I'd never told you directly: You're in my personal Hall of Fame for effective speakers. Watching your presentations taught me so much about presence and persuasion. I just wanted you to know you're *really* good at it. Hope this brightens your day.",
+    tip:      "Who doesn't love a sincere compliment?  No need to go over the top, but friendly and specific appreciation makes people like you more." 
   },
   missing: {
-    skeleton: "Hey [name] — I miss you. [one real reason — the conversations, the perspective, the way they made you think or laugh]. [a simple, low-pressure invitation].",
-    casual:   "Hey Dani — I just miss you, honestly. Can we fix that? Are you around in the next few weeks?",
-    formal:   "Hi Dani — I realized recently it's been far too long. I always leave our conversations more energized, and I'd love to catch up when the time is right for you.",
-    tip:      "This one works best when the relationship can hold it. Use your judgment."
+    skeleton: "[Greeting] — I miss you. [one real reason — the conversations, the perspective, the advice or snark]. [a simple, low-pressure invitation].",
+    casual:   "Hey Steph. I miss our walk-and-talks. Can we fix that? I'm pretty flexible next week if you've got time.",
+    formal:   "Hi Steph, I saw your LinkedIn update and I can't believe it's been three years already. I miss seeing you in meetings and would love to hear how things are going for you since the last time we talked.",
+    tip:      "Don't overthink this. People drift, life gets busy, and it's often a treat to reconnect."
   },
-  gift: {
-    skeleton: "Hey [name] — I came across [the thing — article, book, person, restaurant, opportunity] and immediately thought: [name] would love this. [why this specific thing for this specific person]. [easy offer, no obligation].",
-    casual:   "Hey Kenji — I keep meaning to send you this [article/book]. Given [reason], I think you'd find it genuinely useful. No need to report back — just wanted to pass it along.",
-    formal:   "Hi Kenji — I came across [resource or person] recently and thought of you immediately. Given your work in [area], I think it's worth your time. Happy to share — just say the word.",
-    tip:      "An introduction is a gift too. So is a job posting, a restaurant, a podcast, a book. The gift is: I was thinking about you."
+    gift: {
+    skeleton: "Hey [name] — I came across [the thing — article, book, person, restaurant, opportunity] and thought: [name] would love this. [why this specific thing for this specific person]. [easy offer, no obligation].",
+    casual:   "Hey Kenji — Check out this article. Helpful for your upcoming convo with R? Passing it along in case.",
+    formal:   "Hi Kenji — I read this article over the weekend and thought of your monthly gathering. I don't know how much overlap there is between your higher ed group and the K-12 issues raised but I heard the author on a podcast and she's a great speaker.  Linking to both in case you want to consider including either in a future discussion.",
+    tip:      "An introduction is a gift too. So is a job posting, a restaurant recommendation, a podcast, a book. The gift is: I'm thinking of you and wish good things for you."
   },
   thinking: {
-    skeleton: "Hey [name] — I always learn something when I talk to you. [what's prompting the curiosity — a question you keep coming back to, something shifting in your own thinking]. What are you working on these days? Any interesting projects?",
-    casual:   "Hey Marcus — I always come away from our conversations with something useful to think about. What are you working on lately? I'm genuinely curious.",
-    formal:   "Hi Marcus — I've been thinking about [topic] and found myself wondering what your take would be. What are you working on these days? I'd love to hear your perspective.",
+    skeleton: "Hey [name] — I always learn something when I talk to you. [Optional detail that triggered curiosity]. What are you up to these days? I'd love to hear.",
+    casual:   "Laura — I'm in a rut and you've always give me something interesting to think about. What are you working on or wondering about? I'm super curious.",
+    formal:   "Hi Laura — I've been going around in circles about AI agents and found myself wondering what your take would be. Which got me wondering what you are thinking about these days? Your way of talking about ideas always helps me.",
     tip:      "Open and intellectual. Works for almost any professional relationship. Let them decide whether to talk about work or something outside it."
   },
   update: {
-    skeleton: "Hey [name] — it's been a while and I realized I've lost track of your life. [one specific thing you remember — a project, a kid, a move, a goal]. [a warm, specific question about it].",
-    casual:   "Hey Jordan — it's been ages and I just realized: is your daughter in college by now? Time is completely wild. How is everyone doing?",
-    formal:   "Hi Jordan — I realized I've lost track of what's happening in your world. Last I heard you were [thing I remember]. I'd love to know how that turned out — or what's next.",
-    tip:      "\"How are you doing\" is easy to deflect. \"Are you still running marathons?\" opens a real conversation. One specific thing you remember is all you need."
+    skeleton: "[Greeting] — It's been a while and I realized I've lost track of your life. [one specific thing you remember — a project, a kid, a move, a goal]. [a warm, specific question about it].",
+    casual:   "Hey J — it's been ages and I suddenly realized: K might be in college now?? Seems impossible. How is everyone doing?",
+    formal:   "Hi J — Last I heard you were getting ready for the Boston Marathon. That was a while back and today I realized I'm not sure what you're up to. I'd love to know how that turned out — and what's next.",
+    tip:      "\"How are you doing\" is easy to deflect. \"Are you still playing bass?\" opens a real conversation. One specific thing you remember is all you need."
   },
-  because: {
-    skeleton: "Hey [name] — no real reason for this, I just thought of you today and wanted to say hi. [one genuine thing — what you remember, what you appreciate, what you've been wondering about them]. [a low-stakes, easy door-opener].",
-    casual:   "Hey Sam — no reason for this, I just thought about you today and realized it's been way too long. What's going on with you?",
-    formal:   "Hi Sam — I hope this finds you well. I found myself thinking of you recently — no particular occasion, just that it's been too long. I'd love to catch up if you're ever up for it.",
-    tip:      "People are almost always glad someone thought of them. The lack of agenda is the point."
+  update: {
+    skeleton: "Hey [name] — [Brief news]. [Connect it to them/memory/value.].",
+    casual:   "Hey Sam — Remember that spin class when I almost puked? I just got certified as a spin instructor. Thought that would make you smile. Miss you.",
+    formal:   "Hi Sam — I hope this finds you well. I'm relocating to Chicago next month. You were a big part of why I loved St. Louis so much and I'll always be grateful. Hope we can stay in touch'.",
+    tip:      "Center the relationship, not the news. People enjoy being on a cheering squad, and they like being in the loop. Give them a chance."
   }
 };
 
 const CHANNEL_NOTES = {
-  "Text message":       "Texting? 2–3 sentences. That's the whole point.",
+  "Text message":       "Texting? 2 or 3 sentences. That's the whole point.",
   "Email":              "Emailing? You can add a line or two. A subject line helps.",
   "LinkedIn message":   "LinkedIn? One short paragraph — they'll read it on their phone.",
   "Phone call":         "Calling? Use these as talking points, not a script.",
-  "A handwritten note": "Handwritten: 3–5 sentences. Slower to send, harder to forget.",
-  "Show up somewhere":  "If you'll see them in person, a quick heads-up text warms the room.",
-  "Instagram DM":       "Conversational and brief. Responding to something they posted is even better.",
-  "Other social media": "Match the platform's tone. Twitter/X is brief. Facebook can be warmer. The channel is just a door."
+  "A handwritten note": "Handwritten: 3 to 5 sentences. Slower to send, harder to forget.",
+  "Show up somewhere":  "It's ok to drop by a familiar shared space and say, I was hoping I'd see you. For already warm relationships.",
+  "Instagram DM":       "Warm and brief. Responding to something they posted is even better.",
+  "Other social media": "You know this already - match your voice to the venue, but stay you."
 };
 
 const CELEBRATION_LINES = [
   "That's the whole job. You showed up.",
-  "One ping sent. That relationship just got warmer.",
-  "You didn't overthink it. Look at you.",
-  "The hardest part is always starting. You started.",
+  "One small step, taken.",
+  "You didn't overthink it. Look at you!",
+  "The social fabric just got a little thicker",
   "Somewhere, someone is glad you reached out.",
-  "That's not networking. That's being human."
+  "Proud of you!"
 ];
 
 /* ============================================================
