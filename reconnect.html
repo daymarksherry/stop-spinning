@@ -324,7 +324,6 @@ body {
   cursor: pointer;
   background: var(--white);
   transition: border-color 0.15s, background 0.15s;
-  touch-action: manipulation;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -381,9 +380,6 @@ body {
   cursor: pointer;
   background: var(--white);
   transition: border-color 0.15s, background 0.15s;
-  touch-action: manipulation;
-  user-select: none;
-  -webkit-user-select: none;
 }
 .how-tile:hover {
   border-color: var(--teal);
@@ -804,21 +800,6 @@ function notifyHeight() {
 }
 
 /* ============================================================
-   onTap — pointerdown for native buttons (fires before iframe
-   focus-steal on first click in Chrome cross-origin iframes).
-   Divs use plain click — they don't suffer the first-click
-   problem once a button has already been tapped on the page,
-   and pointerdown+preventDefault on divs breaks Chrome after
-   panel transitions.
-   ============================================================ */
-function onTap(el, fn) {
-  el.addEventListener('pointerdown', function(e) {
-    e.preventDefault();
-    fn();
-  });
-}
-
-/* ============================================================
    STATE
    ============================================================ */
 const state = {
@@ -1016,7 +997,7 @@ function spin(stripId, items, targetItemIndex, onLand) {
    ============================================================ */
 function initStep1() {
   buildStrip('strip-who', WHO_ITEMS);
-  applyHighlight('strip-who', 2); // index 2 sits in the amber center zone at translateY(0)
+  applyHighlight('strip-who', 2); // index 2 is centered in amber zone at translateY(0)
 
   const spinBtn    = document.getElementById('spin-who');
   const spinAgain  = document.getElementById('spin-who-again');
@@ -1029,10 +1010,9 @@ function initStep1() {
     spinBtn.disabled = true;
     resultBox.classList.remove('show');
     actions.style.display = 'none';
-    buildStrip('strip-who', WHO_ITEMS); // fresh strip for clean animation
+    buildStrip('strip-who', WHO_ITEMS);
 
     const pickIdx  = Math.floor(Math.random() * WHO_ITEMS.length);
-    // Land in the 8th repetition (middle-ish of 16)
     const absIdx   = 7 * WHO_ITEMS.length + pickIdx;
 
     spin('strip-who', WHO_ITEMS, absIdx, () => {
@@ -1044,9 +1024,9 @@ function initStep1() {
     });
   }
 
-  onTap(spinBtn,   doSpin);
-  onTap(spinAgain, () => { buildStrip('strip-who', WHO_ITEMS); doSpin(); });
-  onTap(nextBtn,   () => goToStep(2));
+  spinBtn.addEventListener('click', doSpin);
+  spinAgain.addEventListener('click', () => { buildStrip('strip-who', WHO_ITEMS); doSpin(); });
+  nextBtn.addEventListener('click', () => goToStep(2));
 }
 
 /* ============================================================
@@ -1099,9 +1079,9 @@ function initStep3() {
     });
   }
 
-  onTap(spinBtn,   doSpin);
-  onTap(spinAgain, () => { buildStrip('strip-how', HOW_ITEMS); doSpin(); });
-  onTap(nextBtn,   () => goToStep(4));
+  spinBtn.addEventListener('click', doSpin);
+  spinAgain.addEventListener('click', () => { buildStrip('strip-how', HOW_ITEMS); doSpin(); });
+  nextBtn.addEventListener('click', () => goToStep(4));
 
   // Manual pick
   const manualLink = document.getElementById('manual-link');
@@ -1110,17 +1090,12 @@ function initStep3() {
     const tile = document.createElement('div');
     tile.className   = 'how-tile';
     tile.textContent = h;
-    tile.addEventListener('click', () => {
-      state.how = h;
-      goToStep(4);
-    });
+    tile.addEventListener('click', () => { state.how = h; goToStep(4); });
     howGrid.appendChild(tile);
   });
   manualLink.addEventListener('click', () => {
     const showing = howGrid.classList.toggle('show');
-    manualLink.textContent = showing
-      ? 'Hide options'
-      : 'I already know how I want to reach out';
+    manualLink.textContent = showing ? 'Hide options' : 'I already know how I want to reach out';
   });
 }
 
@@ -1199,7 +1174,6 @@ function resetAll() {
     s1.classList.add('active');
     requestAnimationFrame(() => requestAnimationFrame(() => s1.classList.add('visible')));
     updateIndicator(1);
-    setTimeout(notifyHeight, 80);
   }, 300);
 }
 
@@ -1207,6 +1181,10 @@ function resetAll() {
    INIT
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
+  // Grab iframe focus immediately so the first user click isn't consumed
+  // by the browser's cross-origin iframe focus-steal mechanism
+  try { window.focus(); } catch(e) { /* silent */ }
+
   const s1 = document.getElementById('step-1');
   s1.classList.add('active');
   requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -1219,11 +1197,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initStep2();
   initStep3();
 
-  onTap(document.getElementById('idit-btn'), () => {
+  document.getElementById('idit-btn').addEventListener('click', () => {
     goToStep(5);
     setTimeout(celebrate, 150);
   });
-  onTap(document.getElementById('start-over'), resetAll);
+  document.getElementById('start-over').addEventListener('click', resetAll);
 });
 </script>
 </body>
