@@ -50,29 +50,7 @@ body {
 .page-wrap {
   max-width: 760px;
   margin: 0 auto;
-  padding: 0 20px 60px;
-}
-
-/* ============================================================
-   HEADER
-   ============================================================ */
-.site-header {
-  padding: 44px 0 32px;
-  text-align: center;
-}
-.site-header h1 {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: clamp(22px, 5vw, 32px);
-  color: var(--blue);
-  letter-spacing: -0.3px;
-  line-height: 1.2;
-}
-.site-header p {
-  font-size: clamp(13px, 3vw, 16px);
-  color: var(--sage);
-  margin-top: 8px;
-  font-weight: 400;
+  padding: 28px 20px 60px;
 }
 
 /* ============================================================
@@ -547,12 +525,6 @@ body {
 
 <div class="page-wrap">
 
-  <!-- HEADER -->
-  <header class="site-header">
-    <h1>Stop Spinning. Start Connecting.</h1>
-    <p>You already have permission. You just forgot.</p>
-  </header>
-
   <!-- STEP INDICATOR -->
   <div class="step-indicator-wrap" id="stepIndicator">
     <div class="step-node">
@@ -814,6 +786,18 @@ const CELEBRATION_LINES = [
 ];
 
 /* ============================================================
+   IFRAME HEIGHT — notify parent so iframe auto-resizes
+   ============================================================ */
+function notifyHeight() {
+  try {
+    window.parent.postMessage(
+      { iframeHeight: document.documentElement.scrollHeight },
+      '*'
+    );
+  } catch (e) { /* silent — works fine when not embedded */ }
+}
+
+/* ============================================================
    STATE
    ============================================================ */
 const state = {
@@ -853,7 +837,10 @@ function goToStep(n) {
   setTimeout(() => {
     cur.classList.remove('active');
     next.classList.add('active');
-    requestAnimationFrame(() => requestAnimationFrame(() => next.classList.add('visible')));
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      next.classList.add('visible');
+      setTimeout(notifyHeight, 80);
+    }));
     state.step = n;
     updateIndicator(n);
   }, 300);
@@ -1008,7 +995,7 @@ function spin(stripId, items, targetItemIndex, onLand) {
    ============================================================ */
 function initStep1() {
   buildStrip('strip-who', WHO_ITEMS);
-  applyHighlight('strip-who', 0); // show initial state
+  applyHighlight('strip-who', 2); // show initial state
 
   const spinBtn    = document.getElementById('spin-who');
   const spinAgain  = document.getElementById('spin-who-again');
@@ -1067,7 +1054,7 @@ function initStep2() {
    ============================================================ */
 function initStep3() {
   buildStrip('strip-how', HOW_ITEMS);
-  applyHighlight('strip-how', 0);
+  applyHighlight('strip-how', 2);
 
   const spinBtn   = document.getElementById('spin-how');
   const spinAgain = document.getElementById('spin-how-again');
@@ -1175,8 +1162,8 @@ function resetAll() {
 
   buildStrip('strip-who', WHO_ITEMS);
   buildStrip('strip-how', HOW_ITEMS);
-  applyHighlight('strip-who', 0);
-  applyHighlight('strip-how', 0);
+  applyHighlight('strip-who', 2);
+  applyHighlight('strip-how', 2);
 
   document.getElementById('result-who').classList.remove('show');
   document.getElementById('result-how').classList.remove('show');
@@ -1195,7 +1182,10 @@ function resetAll() {
     state.step = 1;
     const s1 = document.getElementById('step-1');
     s1.classList.add('active');
-    requestAnimationFrame(() => requestAnimationFrame(() => s1.classList.add('visible')));
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      s1.classList.add('visible');
+      setTimeout(notifyHeight, 80);
+    }));
     updateIndicator(1);
   }, 300);
 }
@@ -1206,7 +1196,10 @@ function resetAll() {
 document.addEventListener('DOMContentLoaded', () => {
   const s1 = document.getElementById('step-1');
   s1.classList.add('active');
-  requestAnimationFrame(() => requestAnimationFrame(() => s1.classList.add('visible')));
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    s1.classList.add('visible');
+    setTimeout(notifyHeight, 80);
+  }));
   updateIndicator(1);
 
   initStep1();
