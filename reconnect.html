@@ -521,11 +521,43 @@ body {
   font-family: 'Montserrat', sans-serif;
 }
 .start-over:hover { color: var(--blue); }
+
+/* ============================================================
+   PAGE INTRO
+   ============================================================ */
+.page-intro {
+  max-width: 600px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+.page-intro h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: clamp(20px, 4.5vw, 28px);
+  color: var(--blue);
+  margin-bottom: 24px;
+  line-height: 1.25;
+}
+.page-intro p {
+  font-size: 15px;
+  color: #444;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+.page-intro p:last-child { margin-bottom: 0; }
 </style>
 </head>
 <body>
 
 <div class="page-wrap">
+
+  <!-- PAGE INTRO -->
+  <div class="page-intro">
+    <h1>Spin The Wheel. Start a Conversation.</h1>
+    <p>Sometimes we get in our own way when it comes to networking. We overthink it, imagining that we have to get the words exactly right.</p>
+    <p>In my experience, that's just not true. People are happy to reconnect.</p>
+    <p>Reach out and make one relationship you already have a tiny bit stronger. Hit &ldquo;Spin&rdquo; to start.</p>
+  </div>
 
   <!-- STEP INDICATOR -->
   <div class="step-indicator-wrap" id="stepIndicator">
