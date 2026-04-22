@@ -324,6 +324,9 @@ body {
   cursor: pointer;
   background: var(--white);
   transition: border-color 0.15s, background 0.15s;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
 }
 .bridge-card:hover {
   border-color: var(--teal);
@@ -378,6 +381,9 @@ body {
   cursor: pointer;
   background: var(--white);
   transition: border-color 0.15s, background 0.15s;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
 }
 .how-tile:hover {
   border-color: var(--teal);
@@ -794,14 +800,16 @@ function notifyHeight() {
       { iframeHeight: document.documentElement.scrollHeight },
       '*'
     );
-  } catch (e) { /* silent — works fine when not embedded */ }
+  } catch (e) { /* silent when not embedded */ }
 }
 
 /* ============================================================
-   onTap — use pointerdown instead of click so that the first
-   interaction works inside a cross-origin iframe (Chrome
-   consumes the first click to focus the iframe, so click
-   never fires; pointerdown fires before focus is assigned)
+   onTap — pointerdown for native buttons (fires before iframe
+   focus-steal on first click in Chrome cross-origin iframes).
+   Divs use plain click — they don't suffer the first-click
+   problem once a button has already been tapped on the page,
+   and pointerdown+preventDefault on divs breaks Chrome after
+   panel transitions.
    ============================================================ */
 function onTap(el, fn) {
   el.addEventListener('pointerdown', function(e) {
@@ -1008,7 +1016,7 @@ function spin(stripId, items, targetItemIndex, onLand) {
    ============================================================ */
 function initStep1() {
   buildStrip('strip-who', WHO_ITEMS);
-  applyHighlight('strip-who', 2); // center item is index 2 at translateY(0)
+  applyHighlight('strip-who', 2); // index 2 sits in the amber center zone at translateY(0)
 
   const spinBtn    = document.getElementById('spin-who');
   const spinAgain  = document.getElementById('spin-who-again');
@@ -1050,8 +1058,7 @@ function initStep2() {
     const card = document.createElement('div');
     card.className = 'bridge-card';
     card.innerHTML = `<div class="bridge-card-label">${b.label}</div><div class="bridge-card-desc">${b.desc}</div>`;
-    card.addEventListener('pointerdown', (e) => {
-      e.preventDefault();
+    card.addEventListener('click', () => {
       state.bridge    = b.label;
       state.bridgeKey = b.key;
       goToStep(3);
@@ -1103,15 +1110,13 @@ function initStep3() {
     const tile = document.createElement('div');
     tile.className   = 'how-tile';
     tile.textContent = h;
-    tile.addEventListener('pointerdown', (e) => {
-      e.preventDefault();
+    tile.addEventListener('click', () => {
       state.how = h;
       goToStep(4);
     });
     howGrid.appendChild(tile);
   });
-  manualLink.addEventListener('pointerdown', (e) => {
-    e.preventDefault();
+  manualLink.addEventListener('click', () => {
     const showing = howGrid.classList.toggle('show');
     manualLink.textContent = showing
       ? 'Hide options'
@@ -1192,11 +1197,9 @@ function resetAll() {
     state.step = 1;
     const s1 = document.getElementById('step-1');
     s1.classList.add('active');
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      s1.classList.add('visible');
-      setTimeout(notifyHeight, 80);
-    }));
+    requestAnimationFrame(() => requestAnimationFrame(() => s1.classList.add('visible')));
     updateIndicator(1);
+    setTimeout(notifyHeight, 80);
   }, 300);
 }
 
