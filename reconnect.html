@@ -798,6 +798,19 @@ function notifyHeight() {
 }
 
 /* ============================================================
+   onTap — use pointerdown instead of click so that the first
+   interaction works inside a cross-origin iframe (Chrome
+   consumes the first click to focus the iframe, so click
+   never fires; pointerdown fires before focus is assigned)
+   ============================================================ */
+function onTap(el, fn) {
+  el.addEventListener('pointerdown', function(e) {
+    e.preventDefault();
+    fn();
+  });
+}
+
+/* ============================================================
    STATE
    ============================================================ */
 const state = {
@@ -995,7 +1008,7 @@ function spin(stripId, items, targetItemIndex, onLand) {
    ============================================================ */
 function initStep1() {
   buildStrip('strip-who', WHO_ITEMS);
-  applyHighlight('strip-who', 2); // show initial state
+  applyHighlight('strip-who', 2); // center item is index 2 at translateY(0)
 
   const spinBtn    = document.getElementById('spin-who');
   const spinAgain  = document.getElementById('spin-who-again');
@@ -1023,12 +1036,9 @@ function initStep1() {
     });
   }
 
-  spinBtn.addEventListener('click', doSpin);
-  spinAgain.addEventListener('click', () => {
-    buildStrip('strip-who', WHO_ITEMS);
-    doSpin();
-  });
-  nextBtn.addEventListener('click', () => goToStep(2));
+  onTap(spinBtn,   doSpin);
+  onTap(spinAgain, () => { buildStrip('strip-who', WHO_ITEMS); doSpin(); });
+  onTap(nextBtn,   () => goToStep(2));
 }
 
 /* ============================================================
@@ -1040,7 +1050,8 @@ function initStep2() {
     const card = document.createElement('div');
     card.className = 'bridge-card';
     card.innerHTML = `<div class="bridge-card-label">${b.label}</div><div class="bridge-card-desc">${b.desc}</div>`;
-    card.addEventListener('click', () => {
+    card.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
       state.bridge    = b.label;
       state.bridgeKey = b.key;
       goToStep(3);
@@ -1081,12 +1092,9 @@ function initStep3() {
     });
   }
 
-  spinBtn.addEventListener('click', doSpin);
-  spinAgain.addEventListener('click', () => {
-    buildStrip('strip-how', HOW_ITEMS);
-    doSpin();
-  });
-  nextBtn.addEventListener('click', () => goToStep(4));
+  onTap(spinBtn,   doSpin);
+  onTap(spinAgain, () => { buildStrip('strip-how', HOW_ITEMS); doSpin(); });
+  onTap(nextBtn,   () => goToStep(4));
 
   // Manual pick
   const manualLink = document.getElementById('manual-link');
@@ -1095,13 +1103,15 @@ function initStep3() {
     const tile = document.createElement('div');
     tile.className   = 'how-tile';
     tile.textContent = h;
-    tile.addEventListener('click', () => {
+    tile.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
       state.how = h;
       goToStep(4);
     });
     howGrid.appendChild(tile);
   });
-  manualLink.addEventListener('click', () => {
+  manualLink.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
     const showing = howGrid.classList.toggle('show');
     manualLink.textContent = showing
       ? 'Hide options'
@@ -1206,11 +1216,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initStep2();
   initStep3();
 
-  document.getElementById('idit-btn').addEventListener('click', () => {
+  onTap(document.getElementById('idit-btn'), () => {
     goToStep(5);
     setTimeout(celebrate, 150);
   });
-  document.getElementById('start-over').addEventListener('click', resetAll);
+  onTap(document.getElementById('start-over'), resetAll);
 });
 </script>
 </body>
